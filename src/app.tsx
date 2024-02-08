@@ -23,12 +23,28 @@ export function App() {
         className="grid grid-cols-3 gap-6 auto-rows-[250px]"
         >
         <NewNote />
-          <Cards />
-          <Cards />
-          <Cards />
-          <Cards />
-          <Cards />
+          <Cards note={{
+            date: new Date(),
+            content: "Primeira nota..."
+          }}/>
+          <Cards note= {{
+            date: new Date(),
+            content:"Segunda nota..."}}
+          />
+          <Cards note={{
+              date: new Date(),
+             content: "Terceira nota..."
+            }}
+            />
+          <Cards note= {{
+              date: new Date(),
+             content:"Quarta nota..."}}
+             />
+          <Cards note= {{
+            date: new Date(),
+            content: "Quinta nota..."}}/>
         </div>
+        <h1></h1>
 
 
     </main>

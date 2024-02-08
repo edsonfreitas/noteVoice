@@ -1,17 +1,25 @@
-export default function cards() {
-  return (
+import * as Dialog from '@radix-ui/react-dialog'
+interface NoteCardProps{
+  note: {
+    date: Date,
+    content: string
+}
+}
 
-        <button
-        className="rounded-md text-left bg-slate-800 p-5 space-y-3 overflow-hidden relative outline-none hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400">
+
+export default function cards({note}:NoteCardProps) {
+  return (
+          <Dialog.Root>
+        <Dialog.Trigger
+        className="rounded-md text-left flex flex-col bg-slate-800 p-5 gap-3 overflow-hidden relative outline-none hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400">
             <span
             className="text-sm-medium text-slate-300"
             >
-              há 2 dias
+              há ${note.date.toISOString()} dias
             </span>
           <p className="text-sm leading-6 text-slate-400"
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus, temporibus odit nemo reprehenderit quis deleniti aliquid, officia, dolorem harum non ex quisquam sit fuga omnis est obcaecati alias? Expedita, odit?
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quae nostrum animi minus molestias nisi cumque repudiandae ut reprehenderit commodi voluptatibus magni sunt dolorum, perspiciatis repellat accusamus, delectus eos magnam fugit.
+            {note.content}
           </p>
 
           <div
@@ -20,7 +28,10 @@ export default function cards() {
           />
 
 
-        </button>
-
+        </Dialog.Trigger>
+        <Dialog.Content>
+          Primero modal com Radix :-0
+        </Dialog.Content>
+        </Dialog.Root>
   )
 }
