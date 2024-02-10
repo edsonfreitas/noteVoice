@@ -1,4 +1,4 @@
-import { useState  } from "react"
+import { ChangeEvent, useState  } from "react"
 import logo from "./assets/logo-edson.svg"
 import Cards from "./components/cards"
 import NewNote from "./components/new-note"
@@ -9,6 +9,7 @@ interface  Note{
     content: string
 }
 export function App() {
+  const [search, setSearch] = useState('');
   const [notes, setNotes] = useState<Note[]>(()=>{
     const notesOnStorage = localStorage.getItem("notes")
     if(notesOnStorage){
@@ -29,6 +30,18 @@ export function App() {
     localStorage.setItem( 'notes', JSON.stringify(notesArray))
   }
 
+  function handleSearch(event: ChangeEvent<HTMLInputElement>){
+    const query = event.target.value
+
+
+    setSearch(query);
+  }
+
+  const filteredNotes = search != "" ? notes.filter((note)=>{
+     return note.content.toLowerCase().includes(search.toLowerCase())
+   }) : notes;
+
+
   return (
     <main className="mx-auto max-w-6xl my-12 space-y-6">
       <img src={logo}  alt="Logo Edson"/>
@@ -38,6 +51,7 @@ export function App() {
         type="text"
         placeholder="Busque as suas notas..."
         className="w-full bg-transparent text-3xl font-semibold tracking-tighter placeholder:text-slate-500 outline-none"
+        onChange={handleSearch}
         />
       </form>
 
@@ -48,12 +62,12 @@ export function App() {
         >
         <NewNote onNoteCreated={onNoteCreated} />
 
-          {notes.map(note =>{
+          {filteredNotes.map(note =>{
             return <Cards key={note.id} note={note} />
           })}
 
         </div>
-        <h1></h1>
+
 
 
     </main>
