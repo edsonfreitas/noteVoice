@@ -2,7 +2,13 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { toast } from 'sonner'
-export default function NewNote() {
+
+
+interface newNoteCreatedPros{
+  onNoteCreated:(content: string) => void;
+}
+export default function NewNote({onNoteCreated}: newNoteCreatedPros) {
+
 
   const [ shouldShowOnboarding, setShoudShowOnboarding ] = useState(true);
   const [content, setContent] = useState('')
@@ -23,7 +29,9 @@ export default function NewNote() {
   function handleSaveNote(event: FormEvent){
     event.preventDefault();
     console.log("Saving note "+ content);
-
+      onNoteCreated(content);
+      setContent('');
+      setShoudShowOnboarding(true);
     toast.success("Nota criada com  sucesso!", {duration:2000});
   };
 
@@ -77,7 +85,8 @@ export default function NewNote() {
                               <textarea
                                 autoFocus
                                 className='text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none'
-                                onChange={handleContentChange}>
+                                onChange={handleContentChange}
+                                value={content}>
 
                               </textarea>
                             )}

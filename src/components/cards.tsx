@@ -18,7 +18,7 @@ export default function cards({note}:NoteCardProps) {
             <span
             className="text-sm-medium text-slate-300"
             >
-              há ${note.date.toISOString()} dias
+              {formatDistanceToNow(note.date, { locale: ptBR, addSuffix: true})}
             </span>
           <p className="text-sm leading-6 text-slate-400"
           >
