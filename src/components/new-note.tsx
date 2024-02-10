@@ -1,20 +1,31 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
-import { ChangeEvent, useState } from 'react'
-
+import { ChangeEvent, FormEvent, useState } from 'react'
+import { toast } from 'sonner'
 export default function NewNote() {
 
   const [ shouldShowOnboarding, setShoudShowOnboarding ] = useState(true);
+  const [content, setContent] = useState('')
 
   function handleStartEditor(){
     setShoudShowOnboarding(false);
-  }
+  };
+
 
   function handleContentChange(event: ChangeEvent<HTMLTextAreaElement>){
+    setContent(event.target.value)
+
     if(event.target.value === ''){
-      setShoudShowOnboarding(true)  
+      setShoudShowOnboarding(true)
     }
-  }
+  };
+
+  function handleSaveNote(event: FormEvent){
+    event.preventDefault();
+    console.log("Saving note "+ content);
+
+    toast.success("Nota criada com  sucesso!", {duration:2000});
+  };
 
   return (
 
@@ -45,37 +56,41 @@ export default function NewNote() {
                       <X className='size-5'/>
                     </Dialog.Close>
                     {/*Div Content*/}
-                    <div
-                      className='flex flex-1 flex-col gap-3 p-5'>
-                        <span
-                          className='text-sm-medium text-slate-300'>
-                            Adicionar nota
-                        </span>
+                  <form
+                    onSubmit={handleSaveNote}
+                    className='flex-1 flex flex-col'>
+                      <div
+                        className='flex flex-1 flex-col gap-3 p-5'>
+                          <span
+                            className='text-sm-medium text-slate-300'>
+                              Adicionar nota
+                          </span>
+                              {/*Inicio do Onboarding*/}
+                            {shouldShowOnboarding ? (
+                              <p className='text-sm-medium text-slate-300'>
+                              <button className='font-medium text-lime-400 hover:underline'>
+                                  Comece gravando</button> uma nota em áudio ou se preferir <button onClick ={handleStartEditor} className='font-medium text-lime-400 hover:underline'>
+                                  utilize apenas texto.
+                                </button>
+                              </p>
+                            ) : (
+                              <textarea
+                                autoFocus
+                                className='text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none'
+                                onChange={handleContentChange}>
+
+                              </textarea>
+                            )}
                             {/*Inicio do Onboarding*/}
-                          {shouldShowOnboarding ? (
-                            <p className='text-sm-medium text-slate-300'>
-                            <button className='font-medium text-lime-400 hover:underline'>
-                                Comece gravando</button> uma nota em áudio ou se preferir <button onClick ={handleStartEditor} className='font-medium text-lime-400 hover:underline'>
-                                utilize apenas texto.
-                              </button>
-                            </p>
-                          ) : (
-                            <textarea
-                              autoFocus
-                              className='text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none'
-                              onChange={handleContentChange}>
+                      </div>
+                      {/*Div Content*/}
+                        <button
+                        type='submit'
+                        className='w-full bg-lime-400 py-4 text-center text-sm text-lime-950 outline-none font-medium hover:bg-lime-500'>
+                          Salvar nota
 
-                            </textarea>
-                          )}
-                          {/*Inicio do Onboarding*/}
-                    </div>
-                    {/*Div Content*/}
-                      <button
-                      onClick={() => console.log('Clicou')}
-                      className='w-full bg-lime-400 py-4 text-center text-sm text-lime-950 outline-none font-medium hover:bg-lime-500'>
-                         Salvar nota
-
-                      </button>
+                        </button>
+                      </form>
                 </Dialog.Content>
               </Dialog.Overlay>
             </Dialog.Portal>
